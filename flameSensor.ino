@@ -1,10 +1,10 @@
 void flameSensor() {
   Flame = digitalRead(flamePin);
   if (Flame == HIGH) { // No fire detected
-    digitalWrite(buzzerPin, LOW);
+    digitalWrite(flameBuzzerPin, LOW);
     Serial.println(Flame);
   } else if (Flame == LOW) { // Fire detected
-    digitalWrite(buzzerPin, HIGH);
+    digitalWrite(flameBuzzerPin, HIGH);
     Serial.println(Flame);
     // Add the display to LCD => "FIREEEEEEEE"
     // call the openDoor() function
