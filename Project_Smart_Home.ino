@@ -1,5 +1,9 @@
-// Initialize Pins
+//LCD config
+#include <Wire.h> 
+#include <LiquidCrystal_I2C.h>
+LiquidCrystal_I2C lcd(0x27,16,2);  //sometimes the LCD adress is not 0x3f. Change to 0x27 if it dosn't work.
 
+// Initialize Pins
 const int flameBuzzerPin = 12; //flame buzzer
 const int flamePin = 11;
 const int echoPin = 10;   // receives the wave
@@ -25,6 +29,9 @@ void setup() {
 
   // Begin serialization
   Serial.begin(9600);
+  
+  lcd.init();                 //Initialize the LCD
+  lcd.backlight();            //Activate backlight
 }
 
 void loop() {
