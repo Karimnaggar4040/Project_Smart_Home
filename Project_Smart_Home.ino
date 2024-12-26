@@ -1,22 +1,51 @@
+
 //LCD config
-#include <Wire.h> 
+#include <Servo.h>
+#include <Wire.h>
+#include <Keybad.h>
 #include <LiquidCrystal_I2C.h>
-LiquidCrystal_I2C lcd(0x27,16,2);  //sometimes the LCD adress is not 0x3f. Change to 0x27 if it dosn't work.
+
+// Constants and configurations
+#define PASSWORD_LENGTH 7                                // Password length including null terminator
+const char MASTER_PASSWORD[PASSWORD_LENGTH] = "123456";  // Master password
+
+// Keypad configuration
+const byte ROWS = 4;
+const byte COLS = 4;
+char hexaKeys[ROWS][COLS] = {
+  { '1', '2', '3', 'A' },
+  { '4', '5', '6', 'B' },
+  { '7', '8', '9', 'C' },
+  { '*', '0', '#', 'D' }
+};
+byte rowPins[ROWS] = { 9, 8, 7, 6 };
+byte colPins[COLS] = { 5, 4, 3, 2 };
+Keypad customKeypad = Keypad(makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS);
+
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);  //sometimes the LCD adress is not 0x3f. Change to 0x27 if it dosn't work.
 
 // Initialize Pins
-const int flameBuzzerPin = 12; //flame buzzer
+const int flameBuzzerPin = 12;  //flame buzzer
 const int flamePin = 11;
-const int echoPin = 10;   // receives the wave
-const int trigPin = 9;    //sends the wave
+const int echoPin = 10;  // receives the wave
+const int trigPin = 9;   //sends the wave
 
-const int ldrPin = A0;    // LDR pins
-int ldrValue = 0;   // LDR pins
+// const int curtainsServoPin = ;
+// const int doorServoPin = ;
+// const int mansharServoPin = ;
+
 const int ledPin = 13;
+const int ldrPin = A0;  // LDR pins
 
 // Initliaze states
+int ldrValue = 0;  // LDR value
 int Flame = HIGH;
 long duration = 0;
 float distance = 0;
+
+char enteredPassword[PASSWORD_LENGTH] = { 0 };
+byte passwordIndex = 0;
 
 void setup() {
   // Output Pins
@@ -29,14 +58,19 @@ void setup() {
 
   // Begin serialization
   Serial.begin(9600);
-  
-  lcd.init();                 //Initialize the LCD
-  lcd.backlight();            //Activate backlight
+
+  lcd.init();       //Initialize the LCD
+  lcd.backlight();  //Activate backlight
 }
 
 void loop() {
-    // Main code
-    flameSensor();
-    ultraSonicSensor();
-    light_resistance();
+  // Main code
+  flameSensor();
+  ultraSonicSensor();
+  lightResistance();
+
+  char customKey = customKeypad.getKey();
+  if (customKey) {
+    handleKeyInput(customKey);
+  }
 }
