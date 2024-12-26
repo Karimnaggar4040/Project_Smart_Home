@@ -1,4 +1,4 @@
-void ultrasonicSensor() {
+void ultraSonicSensor() {
   // clear the trigPin to make sure no output wave from before
   digitalWrite(trigPin, LOW);
   delay(2);
