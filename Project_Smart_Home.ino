@@ -33,10 +33,6 @@ const int flamePin = 11;
 const int echoPin = 10;  // receives the wave
 const int trigPin = 9;   //sends the wave
 
-// const int curtainsServoPin = ;
-// const int doorServoPin = ;
-// const int mansharServoPin = ;
-
 const int ledPin = 13;
 const int ldrPin = A0;  // LDR pins
 
@@ -51,9 +47,9 @@ byte passwordIndex = 0;
 
 void setup() {
   // Servo Motors attach
-  doorServoMotor.attach(9);
-  curtainsServoMotor.attach();
-  mansharServoMotor.attach();
+  doorServoMotor.attach(10);
+  // curtainsServoMotor.attach();
+  // mansharServoMotor.attach();
   // Output Pins
   pinMode(flameBuzzerPin, OUTPUT);
   pinMode(trigPin, OUTPUT);
