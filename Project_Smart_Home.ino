@@ -46,6 +46,8 @@ void setup() {
   // Begin serialization
   Serial.begin(9600);
 
+  // doorServoMotor.write(90);
+  closeDoor();
   // LCD initialization
   lcd.init();       //Initialize the LCD
   lcd.backlight();  //Activate backlight
